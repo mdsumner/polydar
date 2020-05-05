@@ -23,9 +23,35 @@ What I did:
 and modified that to call what was main from R as `IntegerVector
 polydar`.
 
-Set up all the Rcpp and roxygen stuffs.
+Set up all the Rcpp and roxygen stuffs - you need `usethis::use_rcpp()`
+and you need to ensure roxygen is applied when you build i.e. *check
+‘Install and restart’ for roxygen*.
 
 WIP
+
+## TODO
+
+  - [ ] convert to headers usage
+  - [ ] input data from R
+  - [ ] extract polygons and triangles
+
+## Usage
+
+None yet.
+
+All it does is run the simple2d example:
+
+``` r
+polydar:::polydar()
+#> integer(0)
+
+#> Simple C++ Example of Polylidar
+#> Polylidar took 0 milliseconds processing a 5 point cloud
+#> Point indices of Polygon Shell: [3,0,1,2]
+
+#> Detailed timings in milliseconds:
+#> Delaunay Triangulation: 0.01; Mesh Extraction: 0.00; Polygon Extraction: 0.01
+```
 
 -----
 

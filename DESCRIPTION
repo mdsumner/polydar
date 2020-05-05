@@ -1,13 +1,18 @@
 Package: polydar
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
+Title: Generate Polygons from Points
+Version: 0.0.1
+Authors@R: c(
+    person(given = "Jeremy", 
+           family = "Castagno", 
+           role = c("aut", "cph")),
+    person(given = "Michael D.",
+           family = "Sumner",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "mdsumner@gmail.com",
+           comment = c(ORCID = "YOUR-ORCID-ID")))
+Description: Fast polygon extraction from point clouds using polylidar 
+ <https://arxiv.org/abs/2002.01886>. The
+ polylidar library is available from <https://github.com/JeremyBYU/polylidar>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

@@ -4,12 +4,19 @@
 \name{polydar-package}
 \alias{polydar}
 \alias{polydar-package}
-\title{polydar: What the Package Does (One Line, Title Case)}
+\title{polydar: Generate Polygons from Points}
 \description{
-What the package does (one paragraph).
+Fast polygon extraction from point clouds using polylidar 
+ <https://arxiv.org/abs/2002.01886>. The
+ polylidar library is available from <https://github.com/JeremyBYU/polylidar>.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Michael D. Sumner \email{mdsumner@gmail.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+
+Authors:
+\itemize{
+  \item Jeremy Castagno [copyright holder]
+}
 
 }
 \keyword{internal}
