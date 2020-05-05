@@ -18,6 +18,9 @@ using namespace Rcpp;
 
 #include "include/polylidar/polylidar.hpp"
 
+
+
+
 // Print arrays
 template <typename TElem>
 std::ostream& operator<<(std::ostream& os, const std::vector<TElem>& vec) {
@@ -36,11 +39,12 @@ Rcpp::List rcpp_polydar(NumericVector x,
                                  NumericVector xyThresh,
                                  NumericVector alpha,
                                  NumericVector lmax,
-                                 IntegerVector minTriangles)
+                                 IntegerVector minTriangles,
+                                 IntegerVector MAX_ITER)
 {
   //int argc;
   //char *argv[];
-  std::cout << "Simple C++ Example of Polylidar" << std::endl;
+ // std::cout << "Simple C++ Example of Polylidar" << std::endl;
   std::vector<double> points = as<std::vector<double> >(x);
   // std::vector<double> points = {
   //   0.0, 0.0,
@@ -68,6 +72,11 @@ Rcpp::List rcpp_polydar(NumericVector x,
   auto before = std::chrono::high_resolution_clock::now();
   auto polygons = polylidar::ExtractPolygonsAndTimings(points_, config, timings);
 
+  for (int i = 0; i < MAX_ITER[0]; i++)
+  {
+    polygons = polylidar::ExtractPolygonsAndTimings(points_, config, timings);
+
+  }
 
 // FIXME: I have no idea how to get this stuff out
 //  c++ fu is --
@@ -77,13 +86,13 @@ Rcpp::List rcpp_polydar(NumericVector x,
 
   auto after = std::chrono::high_resolution_clock::now();
   auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after - before);
-   std::cout << "Polylidar took " << elapsed.count() << " milliseconds processing a " << shape[0] << " point cloud" << std::endl;
-   std::cout << "Point indices of Polygon Shell: ";
-   Rcpp::List out(polygons.capacity());
-   int idx;
+   // std::cout << "Polylidar took " << elapsed.count() << " milliseconds processing a " << shape[0] << " point cloud" << std::endl;
+   // std::cout << "Point indices of Polygon Shell: ";
+    Rcpp::List out(polygons.capacity());
+
    int jj = 0;
     for(auto const& polygon: polygons) {
-      std::cout << polygon.shell << std::endl;
+    //  std::cout << polygon.shell << std::endl;
       IntegerVector idx(polygon.shell.capacity());
         for (int ii = 0; ii < idx.length(); ii ++) {
           idx[ii] = (int)polygon.shell[ii];
@@ -93,9 +102,9 @@ Rcpp::List rcpp_polydar(NumericVector x,
     }
 //    std::cout << polygons.capacity() << std::endl;
 //  out[0] = Rcpp::wrap(idx);
-  std::cout << std::endl;
-  std::cout << "Detailed timings in milliseconds:" << std::endl;
-  std::cout << std::fixed << std::setprecision(2) << "Delaunay Triangulation: " << timings[0] << "; Mesh Extraction: " << timings[1] << "; Polygon Extraction: " << timings[2] <<std::endl;
+  // std::cout << std::endl;
+  // std::cout << "Detailed timings in milliseconds:" << std::endl;
+  // std::cout << std::fixed << std::setprecision(2) << "Delaunay Triangulation: " << timings[0] << "; Mesh Extraction: " << timings[1] << "; Polygon Extraction: " << timings[2] <<std::endl;
 
 
   return out;

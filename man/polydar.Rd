@@ -10,7 +10,8 @@ polydar(
   xyThresh = 0,
   alpha = 0,
   lmax = 2,
-  minTriangles = 1L
+  minTriangles = 1L,
+  MAX_ITER = 200
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ polydar(
 \item{lmax}{lmax see polylidar doc}
 
 \item{minTriangles}{minTriangles see polylidar doc}
+
+\item{MAX_ITER}{MAX_ITER see polylidar doc}
 }
 \value{
 nothing useful, int atm
@@ -39,6 +42,6 @@ x <- matrix(rnorm(24), ncol = 2)
 
 system.time(polydar(x))
 polydar(x, alpha = 20, xyThresh = 10, lmax = 2, minTriangles = 16)
-## much faster: system.time(geometry::delaunayn(x))
+
 set.seed(24); plot(matrix(rnorm(24), ncol = 2)); lines(x[c(1,10,8,7,5,4, 1) + 1L, ])
 }

@@ -7,6 +7,7 @@
 #' @param alpha alpha see polylidar doc
 #' @param lmax lmax see polylidar doc
 #' @param minTriangles minTriangles see polylidar doc
+#' @param MAX_ITER MAX_ITER see polylidar doc
 #'
 #' @return nothing useful, int atm
 #' @export
@@ -18,14 +19,15 @@
 #'
 #' system.time(polydar(x))
 #' polydar(x, alpha = 20, xyThresh = 10, lmax = 2, minTriangles = 16)
-#' ## much faster: system.time(geometry::delaunayn(x))
+#'
 #' set.seed(24); plot(matrix(rnorm(24), ncol = 2)); lines(x[c(1,10,8,7,5,4, 1) + 1L, ])
 polydar <- function(x = NULL,
                     dim = 2L,
                     xyThresh = 0.0,
                     alpha = 0.0,
                     lmax = 2.0,
-                    minTriangles = 1L) {
+                    minTriangles = 1L,
+                    MAX_ITER = 200) {
   # std::vector<double> points = {
   #   0.0, 0.0,
   #   0.0, 1.0,
@@ -47,11 +49,13 @@ polydar <- function(x = NULL,
   if (lmax[1L] < 0) stop("lmax must be > 0")
   if (dim[1L] != 2) stop("dim must be 2")
   if (xyThresh[1L] < 0) stop("xyThresh must be > 0")
+  if (!is.numeric(MAX_ITER)) stop("MAX_ITER must be > 0")
   idxlist <- rcpp_polydar(x, dim = as.integer(dim[1L]),
                xyThresh = as.double(xyThresh[1L]),
                alpha = as.double(alpha[1L]),
                lmax = as.double(lmax[1L]),
-               minTriangles = as.integer(minTriangles[1L]))
+               minTriangles = as.integer(minTriangles[1L]),
+               MAX_ITER = as.integer(max(c(1L, MAX_ITER))))
 
   ## convert to 1-based (and add the start wtf)
   lapply(idxlist, function(x) c(x, x[1L]) + 1L)
