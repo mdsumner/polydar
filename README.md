@@ -32,18 +32,72 @@ WIP
 ## TODO
 
   - [ ] convert to headers usage
-  - [ ] input data from R
+  - [x] input data from R
+  - [x] input configuration from R
   - [ ] extract polygons and triangles
+  - [ ] explore configuration and examples
+
+## Not a proper R package yet
+
+Still doing naughty stuff so beware.
+
+    R CMD check results ────────────────────────────────────── polydar 0.0.1 ────
+    Duration: 45.1s
+    
+    > checking if this is a source package ... WARNING
+      Subdirectory ‘src’ contains:
+        glue.hpp
+      These are unlikely file names for src files.
+    
+    > checking Rd metadata ... WARNING
+      Rd files with duplicated alias 'polydar':
+        ‘polydar-package.Rd’ ‘polydar.Rd’
+    
+    > checking for GNU extensions in Makefiles ... WARNING
+      Found the following file(s) containing GNU extensions:
+        examples/cpp/Makefile
+      Portable Makefiles do not use GNU extensions such as +=, :=, $(shell),
+      $(wildcard), ifeq ... endif, .NOTPARALLEL See section ‘Writing portable
+      packages’ in the ‘Writing R Extensions’ manual.
+    
+    > checking top-level files ... NOTE
+      Non-standard file/directory found at top level:
+        ‘examples’
+    
+    > checking pragmas in C/C++ headers and code ... NOTE
+      Files which contain pragma(s) suppressing diagnostics:
+        ‘src/include/parallel_hashmap/phmap.h’
+        ‘src/include/parallel_hashmap/phmap_bits.h’
+    
+    > checking compiled code ... NOTE
+      File ‘polydar/libs/polydar.so’:
+        Found ‘_ZSt4cerr’, possibly from ‘std::cerr’ (C++)
+          Object: ‘polylidar.o’
+        Found ‘_ZSt4cout’, possibly from ‘std::cout’ (C++)
+          Objects: ‘polylidar.o’, ‘simple-2d-polydar.o’
+      
+      Compiled code should not call entry points which might terminate R nor
+      write to stdout/stderr instead of to the console, nor use Fortran I/O
+      nor system RNGs.
+      
+      See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
+    
+    0 errors ✓ | 3 warnings x | 3 notes x
+    Error: R CMD check found WARNINGs
+    Execution halted
+    
+    Exited with status 1.
 
 ## Usage
 
 None yet.
 
-All it does is run the simple2d example:
+All it does is run the simple2d example, with input data option, config
+optional:
 
 ``` r
 polydar:::polydar()
-#> integer(0)
+#> [1] 0
 
 #> Simple C++ Example of Polylidar
 #> Polylidar took 0 milliseconds processing a 5 point cloud
@@ -52,6 +106,43 @@ polydar:::polydar()
 #> Detailed timings in milliseconds:
 #> Delaunay Triangulation: 0.01; Mesh Extraction: 0.00; Polygon Extraction: 0.01
 ```
+
+This is starting to show a bit more interesting stuff:
+
+``` r
+xy <- matrix(unlist(quakes), ncol = 2L)
+polydar:::polydar(xy)
+#> [1] 0
+
+
+polydar::polydar(c(quakes$long, quakes$lat))
+#> [1] 0
+```
+
+    Simple C++ Example of Polylidar
+    Polylidar took 1 milliseconds processing a 1000 point cloud
+    Point indices of Polygon Shell: [662,619,837,601,828,973,954,661,692,539,717,667,674,874,638,598,847,799,953,921,755,618,816,732,805,873,640,781,604,649,950,562,745,830,627,564,504,783,677,922,959,648,853,594,521,964,691,612,877,576,901,505,663,510,818,751,744,586,917,688,589,770,690,992,531,941,753,655,558,925,867,913,879,798,508,650,932,889,773,791,957,936,826,536,945,827,893,549,578,754,694]
+    [699,589,645,818,538,809,690]
+    [666,675,679,523,659]
+    [668,672,800,991,673,669,861,557,942,725,985,847,923,710]
+    [929,700,675]
+    [872,661,522]
+    [802,737,551,704,804,741,681,897,872]
+    [764,587,708]
+    [597,762,951,950]
+    [553,709,951]
+    [944,554,871]
+    [296,253,125,133,190]
+    [133,457,432,362]
+    [362,443,155]
+    [390,493,327,58]
+    [312,152,43,293,418,60,254,389,3,121,194,258,384,285,379,233,460,340,182,454,398,70,360,178,314,26]
+    [236,164,38,251,76,309,163,279,15,159,62,84,453,455,244,114,305,421,95,297,356,342,355,492]
+    [211,17,54,444,368,56,395,201,138,82,57,129,311,324,238,167,411,185,94,410,353,198,287,286,187,352,408,189,250,205,68,274,256,497]
+    
+    Detailed timings in milliseconds:
+    Delaunay Triangulation: 0.95; Mesh Extraction: 0.19; Polygon Extraction: 0.20
+    [1] 0
 
 -----
 
