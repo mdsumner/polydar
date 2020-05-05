@@ -15,3 +15,13 @@ NULL
 #' @importFrom Rcpp sourceCpp
 ## usethis namespace: end
 NULL
+
+#' polylidar hardcase1 and in-built simple2d
+#'
+#' Data set fixtures from polylidar.
+#'
+#' The data are matrices of coordinates in x,y.
+#' @name hardcase1
+#' @aliases simple2d
+#'
+NULL

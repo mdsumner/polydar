@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // rcpp_polydar
-Rcpp::IntegerVector rcpp_polydar(NumericVector x, IntegerVector dim, NumericVector xyThresh, NumericVector alpha, NumericVector lmax, IntegerVector minTriangles);
+Rcpp::List rcpp_polydar(NumericVector x, IntegerVector dim, NumericVector xyThresh, NumericVector alpha, NumericVector lmax, IntegerVector minTriangles);
 RcppExport SEXP _polydar_rcpp_polydar(SEXP xSEXP, SEXP dimSEXP, SEXP xyThreshSEXP, SEXP alphaSEXP, SEXP lmaxSEXP, SEXP minTrianglesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

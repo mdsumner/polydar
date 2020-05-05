@@ -31,7 +31,7 @@ std::ostream& operator<<(std::ostream& os, const std::vector<TElem>& vec) {
     return os;
 }
 // [[Rcpp::export]]
-Rcpp::IntegerVector rcpp_polydar(NumericVector x,
+Rcpp::List rcpp_polydar(NumericVector x,
                                  IntegerVector dim,
                                  NumericVector xyThresh,
                                  NumericVector alpha,
@@ -79,14 +79,24 @@ Rcpp::IntegerVector rcpp_polydar(NumericVector x,
   auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after - before);
    std::cout << "Polylidar took " << elapsed.count() << " milliseconds processing a " << shape[0] << " point cloud" << std::endl;
    std::cout << "Point indices of Polygon Shell: ";
-   for(auto const& polygon: polygons) {
-     std::cout << polygon.shell << std::endl;
-   }
-
+   Rcpp::List out(polygons.capacity());
+   int idx;
+   int jj = 0;
+    for(auto const& polygon: polygons) {
+      std::cout << polygon.shell << std::endl;
+      IntegerVector idx(polygon.shell.capacity());
+        for (int ii = 0; ii < idx.length(); ii ++) {
+          idx[ii] = (int)polygon.shell[ii];
+        }
+        out[jj] = Rcpp::wrap(idx);
+        jj = jj + 1;
+    }
+//    std::cout << polygons.capacity() << std::endl;
+//  out[0] = Rcpp::wrap(idx);
   std::cout << std::endl;
   std::cout << "Detailed timings in milliseconds:" << std::endl;
   std::cout << std::fixed << std::setprecision(2) << "Delaunay Triangulation: " << timings[0] << "; Mesh Extraction: " << timings[1] << "; Polygon Extraction: " << timings[2] <<std::endl;
 
 
-  return Rcpp::wrap(0);
+  return out;
 }

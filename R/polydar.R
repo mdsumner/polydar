@@ -36,11 +36,7 @@ polydar <- function(x = NULL,
   #
   if (is.null(x)) {
     ## the boilerplate simple-2d example from polylidar
-    x <- c(0.0, 0.0,
-        0.0, 1.0,
-        1.0, 1.0,
-        1.0, 0.0,
-        5.0, 0.1)
+    x <- simple2d
   }
   if (!is.numeric(x)) stop("input must be numeric")
   if (!is.null(dim(x))) {
@@ -51,9 +47,12 @@ polydar <- function(x = NULL,
   if (lmax[1L] < 0) stop("lmax must be > 0")
   if (dim[1L] != 2) stop("dim must be 2")
   if (xyThresh[1L] < 0) stop("xyThresh must be > 0")
-  rcpp_polydar(x, dim = as.integer(dim[1L]),
+  idxlist <- rcpp_polydar(x, dim = as.integer(dim[1L]),
                xyThresh = as.double(xyThresh[1L]),
                alpha = as.double(alpha[1L]),
                lmax = as.double(lmax[1L]),
                minTriangles = as.integer(minTriangles[1L]))
+
+  ## convert to 1-based (and add the start wtf)
+  lapply(idxlist, function(x) c(x, x[1L]) + 1L)
 }
