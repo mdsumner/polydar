@@ -69,8 +69,10 @@ Rcpp::IntegerVector rcpp_polydar(NumericVector x,
   auto polygons = polylidar::ExtractPolygonsAndTimings(points_, config, timings);
 
 
+// FIXME: I have no idea how to get this stuff out
+//  c++ fu is --
   // for(auto const& polygon: polygons) {
-  //   Rcpp::IntegerVector = wrap(polygon.shell);
+  //   polygon.shell;  // what do we do? see std::cout below
   // }
 
   auto after = std::chrono::high_resolution_clock::now();
