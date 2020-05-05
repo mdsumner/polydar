@@ -1,0 +1,37 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# polydar
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+A very raw port of [polylidar](https://github.com/JeremyBYU/polylidar)
+to try building an R package with it.
+
+What I did:
+
+  - clone polylidar
+  - cp polylidar/polylidar -R polydar/
+  - cp polylidar/examples polydar/examples
+  - mv polydar/polylidar polydar/src
+  - create polydar/Makevars
+  - cp polydar/examples/cpp/simple-2d.cpp
+    polydar/src/simple-2d-polydar.cpp
+
+and modified that to call what was main from R as `IntegerVector
+polydar`.
+
+Set up all the Rcpp and roxygen stuffs.
+
+WIP
+
+-----
+
+## Code of Conduct
+
+Please note that the polydar project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
